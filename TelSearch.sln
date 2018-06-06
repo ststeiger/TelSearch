@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelSearch", "TelSearch\TelSearch.csproj", "{14853BB0-5906-4D30-874B-B21A62EF40C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libTelSearch", "libTelSearch\libTelSearch.csproj", "{8D034150-056C-4EF4-8E5C-05AEE36497F6}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TelSearchVB", "TelSearchVB\TelSearchVB.vbproj", "{BF66379C-0A40-47C2-AC24-9B31A9F9550C}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "libTelSearchVB", "libTelSearchVB\libTelSearchVB.vbproj", "{A91CC336-1024-441B-AD26-7D06FE0A2E9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14853BB0-5906-4D30-874B-B21A62EF40C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14853BB0-5906-4D30-874B-B21A62EF40C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14853BB0-5906-4D30-874B-B21A62EF40C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14853BB0-5906-4D30-874B-B21A62EF40C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D034150-056C-4EF4-8E5C-05AEE36497F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D034150-056C-4EF4-8E5C-05AEE36497F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D034150-056C-4EF4-8E5C-05AEE36497F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D034150-056C-4EF4-8E5C-05AEE36497F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF66379C-0A40-47C2-AC24-9B31A9F9550C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF66379C-0A40-47C2-AC24-9B31A9F9550C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF66379C-0A40-47C2-AC24-9B31A9F9550C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF66379C-0A40-47C2-AC24-9B31A9F9550C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91CC336-1024-441B-AD26-7D06FE0A2E9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91CC336-1024-441B-AD26-7D06FE0A2E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91CC336-1024-441B-AD26-7D06FE0A2E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91CC336-1024-441B-AD26-7D06FE0A2E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BBCD5F9-6CDA-4C1C-83A5-DC57BBC9213A}
+	EndGlobalSection
+EndGlobal
