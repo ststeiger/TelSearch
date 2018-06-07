@@ -1,0 +1,51 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <julia.h>
+
+
+// export LD_PRELOAD="/root/Downloads/julia-d55cadc350/lib/libjulia.so"
+// export JULIA_DIR="/root/Downloads/julia-d55cadc350"
+
+
+
+// gcc -o test -fPIC -I$JULIA_DIR/include/julia -L$JULIA_DIR/lib/julia julia.c -ljulia $JULIA_DIR/lib/julia/libstdc++.so.6
+// gcc -o test -fPIC -I$JULIA_DIR/include/julia -L$JULIA_DIR/lib/julia -L$JULIA_DIR/lib julia.c -ljulia $JULIA_DIR/lib/julia/*.so
+
+// gcc -o test -fPIC -I$JULIA_DIR/include/julia -L$JULIA_DIR/lib/julia -L$JULIA_DIR/lib julia.c -ljulia $JULIA_DIR/lib/julia/libstdc++.so.6 $JULIA_DIR/lib/julia/libLLVM.so
+
+
+int main(int argc, char *argv[])
+{
+    // required: setup the Julia context 
+    // jl_init(NULL);
+    jl_init();
+
+    // run Julia commands 
+    jl_eval_string("println(sqrt(2.0))");
+
+    /* strongly recommended: notify Julia that the
+         program is about to terminate. this allows
+         Julia time to cleanup pending write requests
+         and run all finalizers
+    */
+    jl_atexit_hook(0);
+    return EXIT_SUCCESS;
+}
+
+/*
+ * root@asshat:~/Downloads/julia-d55cadc350/bin# ldd test
+	linux-vdso.so.1 =>  (0x00007ffda5b9d000)
+	/root/Downloads/julia-d55cadc350/lib/libjulia.so (0x00007fc5cb150000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fc5cad86000)
+	libLLVM-3.9.so => /root/Downloads/julia-d55cadc350/lib/julia/libLLVM-3.9.so (0x00007fc5c8ece000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fc5c8cca000)
+	librt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007fc5c8ac2000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007fc5c88a5000)
+	libstdc++.so.6 => /root/Downloads/julia-d55cadc350/lib/julia/libstdc++.so.6 (0x00007fc5c8527000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fc5c821e000)
+	libgcc_s.so.1 => /root/Downloads/julia-d55cadc350/lib/julia/libgcc_s.so.1 (0x00007fc5c8006000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fc5cb853000)
+root@asshat:~/Downloads/julia-d55cadc350/bin# 
+*/

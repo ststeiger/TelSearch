@@ -1,8 +1,11 @@
-﻿using System;
-
+﻿
 namespace libTelSearch
 {
-    public class Class1
+    
+    public class TelSearch 
     {
+        
+        
+        
     }
 }

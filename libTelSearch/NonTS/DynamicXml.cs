@@ -1,14 +1,8 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Xml;
 using System.Linq;
-using System.Xml.Linq; // In System.Xml.Linq.dll
 
 
-#if false
+#if false  
 
 
 namespace TelSearch
@@ -42,15 +36,15 @@ namespace TelSearch
 
             foreach (var std in students.Student)
             {
-                Console.WriteLine(std.Mark);
+                System.Console.WriteLine(std.Mark);
             }
-
+            
         }
 
 
 
-        XElement _root;
-        private DynamicXml(XElement root)
+        System.Xml.Linq.XElement _root;
+        private DynamicXml(System.Xml.Linq.XElement root)
         {
             _root = root;
         } // End Constructor
@@ -58,13 +52,13 @@ namespace TelSearch
 
         public static DynamicXml Parse(string xmlString)
         {
-            return new DynamicXml(XDocument.Parse(xmlString).Root);
+            return new DynamicXml(System.Xml.Linq.XDocument.Parse(xmlString).Root);
         } // End Function Parse
 
 
         public static DynamicXml Load(string filename)
         {
-            return new DynamicXml(XDocument.Load(filename).Root);
+            return new DynamicXml(System.Xml.Linq.XDocument.Load(filename).Root);
         } // End Function Load
 
 
@@ -80,6 +74,7 @@ namespace TelSearch
             } // End if (att != null)
 
             var nodes = _root.Elements(binder.Name);
+            
             if (nodes.Count() > 1)
             {
                 result = nodes.Select(n => new DynamicXml(n)).ToList();

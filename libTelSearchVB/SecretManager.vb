@@ -51,9 +51,10 @@ Public Class SecretManagerHelper
     Public Shared Function GetEtcKey(Of T)(ByVal path As String, ByVal value As String) As T
         Dim obj As String = Nothing
         Dim p As String = System.IO.Path.Combine(path, value)
-        If System.IO.File.Exists(p) Then obj = System.IO.File.ReadAllText(p, System.Text.Encoding.[Default])
+        If System.IO.File.Exists(p) Then obj = System.IO.File.ReadAllText(p, System.Text.Encoding.Default)
+        
         If obj Is Nothing Then Return ObjectToGeneric(Of T)(CObj(obj))
-
+        
         While obj.EndsWith(vbCr) OrElse obj.EndsWith(vbLf)
             obj = obj.Substring(0, obj.Length - 1)
         End While

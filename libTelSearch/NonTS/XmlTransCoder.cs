@@ -1,10 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
 namespace TelSearch
 {
 
@@ -100,8 +94,8 @@ namespace TelSearch
                 return input;
 
 
-            System.Text.StringBuilder sb = new StringBuilder();
-
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            
             for (int i = 0; i < input.Length; ++i)
             {
                 sb.AppendFormat("&#{0};", (int)input[i]);
