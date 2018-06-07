@@ -1,23 +1,25 @@
 ﻿
-using System;
-
 namespace Platform
 {
 
-
+    // superseeded by 
+    // D:\username\Documents\Visual Studio 2017\Projects\libWkHtml2X\libWkHtmlToX\Loader
     public class SharedLibrary
     {
 
-        [System.Runtime.InteropServices.DllImport("kernel32", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
-        protected static extern System.IntPtr LoadLibrary(string lpFileName);
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall
+            , ExactSpelling = true, SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
+        protected static extern System.IntPtr LoadLibraryW(string lpFileName);
 
-        [System.Runtime.InteropServices.DllImport("kernel32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        protected static extern System.UIntPtr GetProcAddress(System.IntPtr hModule, string procName);
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall 
+            , ExactSpelling = true, SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
+        protected static extern System.IntPtr GetProcAddress(System.IntPtr hModule, string procName);
 
-        [System.Runtime.InteropServices.DllImport("kernel32", SetLastError = true)]
+        [System.Runtime.InteropServices.DllImport("kernel32.dll", CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall 
+            , ExactSpelling = true, SetLastError = true)]
         [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
         protected static extern bool FreeLibrary(System.IntPtr hModule);
-
+        
 
 
 
@@ -25,37 +27,61 @@ namespace Platform
         protected const int RTLD_LAZY = 1; // for dlopen's flags
         protected const int RTLD_NOW = 2; // for dlopen's flags
 
-        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl, CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
+        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl
+            , CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
         protected static extern System.IntPtr dlopen(string filename, int flags);
 
-        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl, CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
+        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl
+            , CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
         protected static extern System.IntPtr dlsym(System.IntPtr handle, string symbol);
 
-        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl, CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
+        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl
+            , CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
         protected static extern int dlclose(System.IntPtr handle);
 
-        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl, CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
+        [System.Runtime.InteropServices.DllImport("libdl", CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl
+            , CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
         protected static extern string dlerror();
 
 
 
         public static T LoadSymbol<T>(System.IntPtr handle, string symbol)
         {
-            
-            
-
             System.IntPtr function = System.IntPtr.Zero;
             
             
-            if (System.Environment.OSVersion.Platform == PlatformID.Unix)
+            if (System.Environment.OSVersion.Platform == System.PlatformID.Unix)
             {
                 function = dlsym(handle, symbol);
+                if (function == System.IntPtr.Zero)
+                {
+                    string message = dlerror();
+                    System.Console.WriteLine(message);
+                } // End if (hSO == System.IntPtr.Zero) 
             }
             else
             {
-                // function = GetProcAddress(handle, symbol);
+                function = GetProcAddress(handle, symbol);
+                if (function == System.IntPtr.Zero)
+                {
+                    System.ComponentModel.Win32Exception ex = new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                    System.Console.WriteLine(ex.Message);
+                } // End if (hSO == System.IntPtr.Zero) 
             }
-            
+
+
+            if (function == System.IntPtr.Zero)
+            {
+                throw new System.ApplicationException("Cannot find symbol \"" + symbol + "\".");
+            } // End if (hSO == IntPtr.Zero)
+
+            System.Type type = typeof(T);
+
+            if(!type.IsSubclassOf(typeof(System.Delegate)))
+            {
+                throw new System.InvalidOperationException($"Type \"{type.Name}\" is not a delegate type");
+            }
+
             System.Delegate delegateInstance = System.Runtime.InteropServices.Marshal
                 .GetDelegateForFunctionPointer(function, typeof(T));
             
@@ -78,10 +104,21 @@ namespace Platform
                 if (System.Environment.OSVersion.Platform == System.PlatformID.Unix)
                 {
                     hSO = dlopen(strFileName, RTLD_NOW);
+                    if (hSO == System.IntPtr.Zero)
+                    {
+                        string message = dlerror();
+                        System.Console.WriteLine(message);
+                    } // End if (hSO == System.IntPtr.Zero) 
                 }
                 else
                 {
-                    hSO = LoadLibrary(strFileName);
+                    hSO = LoadLibraryW(strFileName);
+                    if (hSO == System.IntPtr.Zero)
+                    {
+                        System.ComponentModel.Win32Exception ex = new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                        System.Console.WriteLine(ex.Message);
+                    } // End if (hSO == System.IntPtr.Zero) 
+
                 } // End if (Environment.OSVersion.Platform == PlatformID.Unix)
 
             } // End Try
@@ -94,7 +131,6 @@ namespace Platform
             {
                 throw new System.ApplicationException("Cannot open " + strFileName);
             } // End if (hSO == IntPtr.Zero)
-
 
             m_dict_LoadedDlls.Add(strFileName, hSO);
 
