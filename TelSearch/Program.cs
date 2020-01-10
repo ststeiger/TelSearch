@@ -155,11 +155,32 @@ namespace TelSearch
             jl_init(@"C:\Users\steven liekens.BRAIN2\AppData\Local\julia-e44b593905\bin", "");
         }
 
+     
 
         // export LD_PRELOAD="/root/Downloads/julia-d55cadc350/lib/libjulia.so"
         // dotnet TelSearch.dll 
         static void Main(string[] args)
         {
+            libTelSearch.Proxy.PacParser.GetWebProxy();
+            PacProxyUsage.ProxyTest.Test();
+
+            System.Console.WriteLine(System.Net.WebRequest.DefaultWebProxy);
+            System.Console.WriteLine();
+
+            var wc = new System.Net.WebClient();
+            wc.Proxy = System.Net.WebRequest.DefaultWebProxy;
+            wc.Proxy = new System.Net.WebProxy("127.0.0.1:8888", false);
+
+
+            var pu = System.Net.WebRequest.DefaultWebProxy.GetProxy(new System.Uri("http://www.microsoft.com"));
+            var h = pu.Host; // without port
+            var p = pu.Port;
+            var aut = pu.Authority; // host + port
+            var au = pu.AbsoluteUri;
+            
+
+
+
             SetPath();
             
             // D:\Programme\Julia-0.6.3\bin\libstdc++-6.dll
